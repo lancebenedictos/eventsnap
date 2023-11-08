@@ -7,6 +7,7 @@ import Error from "./ErrorPage/index.tsx";
 import Navbar from "./common/Navbar.tsx";
 import Signup from "./pages/Signup/index.tsx";
 import Login from "./pages/Login/index.tsx";
+import Event from "./pages/Event/Event.tsx";
 
 const router = createBrowserRouter([
   {
@@ -17,6 +18,7 @@ const router = createBrowserRouter([
       { path: "/", element: <App /> },
       { path: "/signup", element: <Signup /> },
       { path: "/login", element: <Login /> },
+      { path: "/event/:id", element: <Event /> },
     ],
   },
 ]);

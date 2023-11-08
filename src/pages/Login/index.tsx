@@ -1,11 +1,17 @@
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { useState } from "react";
-import TextField from "../../common/TextField";
+
 import { Link } from "react-router-dom";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
+  const changeEvent = (setFunction: (value: string) => void) => {
+    return (e: React.ChangeEvent<HTMLInputElement>) => {
+      setFunction(e.target.value);
+    };
+  };
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
   };
@@ -16,22 +22,22 @@ function Login() {
       <p className="pt-2">Welcome back</p>
 
       <form action="" className="flex flex-col w-full py-4" onSubmit={onSubmit}>
-        <label htmlFor="last_name">Email</label>
-        <TextField
-          inputType="email"
-          value={email}
-          onValueChange={setEmail}
+        <Label htmlFor="email">Email</Label>
+        <Input
           id="email"
-          placeholder="Enter email address"
+          type="email"
+          placeholder="Email address"
+          value={email}
+          onChange={changeEvent(setEmail)}
         />
 
-        <label htmlFor="last_name">Password</label>
-        <TextField
-          inputType="password"
-          value={password}
-          onValueChange={setPassword}
+        <Label htmlFor="password">Password</Label>
+        <Input
+          placeholder="Password"
           id="password"
-          placeholder="Enter password"
+          value={password}
+          onChange={changeEvent(setPassword)}
+          type="password"
         />
 
         <p className="mt-2">

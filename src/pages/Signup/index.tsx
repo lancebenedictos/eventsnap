@@ -1,15 +1,23 @@
 import { useState } from "react";
-import TextField from "../../common/TextField";
 import { Link } from "react-router-dom";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 function Signup() {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [cpassword, setCPassword] = useState("");
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+  };
+
+  const changeEvent = (setFunction: (value: string) => void) => {
+    return (e: React.ChangeEvent<HTMLInputElement>) => {
+      setFunction(e.target.value);
+    };
   };
 
   return (
@@ -18,42 +26,51 @@ function Signup() {
       <p className="pt-2">Welcome to EventSnap</p>
 
       <form action="" className="flex flex-col w-full py-4" onSubmit={onSubmit}>
-        <label htmlFor="first_name">First name</label>
-        <TextField
-          inputType="text"
+        <Label htmlFor="first_name">First name</Label>
+
+        <Input
+          placeholder="First name"
           value={firstName}
-          onValueChange={setFirstName}
           id="first_name"
-          placeholder="Enter first name"
+          type="text"
+          onChange={changeEvent(setFirstName)}
         />
 
-        <label htmlFor="last_name">Last name</label>
-        <TextField
-          inputType="text"
+        <Label htmlFor="last_name">Last name</Label>
+        <Input
+          placeholder="Last name"
           value={lastName}
-          onValueChange={setLastName}
           id="last_name"
-          placeholder="Enter last name"
+          type="text"
+          onChange={changeEvent(setLastName)}
         />
 
-        <label htmlFor="last_name">Email</label>
-        <TextField
-          inputType="email"
-          value={email}
-          onValueChange={setEmail}
+        <Label htmlFor="email">Email</Label>
+        <Input
           id="email"
-          placeholder="Enter email address"
+          type="email"
+          placeholder="Email address"
+          value={email}
+          onChange={changeEvent(setEmail)}
         />
 
-        <label htmlFor="last_name">Password</label>
-        <TextField
-          inputType="password"
-          value={password}
-          onValueChange={setPassword}
+        <Label htmlFor="password">Password</Label>
+        <Input
+          placeholder="Password"
           id="password"
-          placeholder="Enter password"
+          value={password}
+          onChange={changeEvent(setPassword)}
+          type="password"
         />
 
+        <Label htmlFor="cpassword">Confirm password</Label>
+        <Input
+          placeholder="Confirm password"
+          id="cpassword"
+          value={cpassword}
+          onChange={changeEvent(setCPassword)}
+          type="password"
+        />
         <p className="mt-2">
           Already have an account? <Link to="/login">Login.</Link>
         </p>
