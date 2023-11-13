@@ -33,6 +33,7 @@ function ReminderDialog({ trigger, onSave, _reminder }: props) {
   const [time, setTime] = useState("");
   const [done, setDone] = useState(false);
   const [open, setOpen] = useState(false);
+  const [calOpen, setCalOpen] = useState(false);
 
   useEffect(() => {
     if (_reminder) {
@@ -59,6 +60,7 @@ function ReminderDialog({ trigger, onSave, _reminder }: props) {
             <Input
               id="task"
               placeholder="Send invitations"
+              autoComplete="off"
               value={task}
               onChange={({ target }) => {
                 setTask(target.value);
@@ -82,7 +84,7 @@ function ReminderDialog({ trigger, onSave, _reminder }: props) {
           </div>
         </div>
 
-        <Popover>
+        <Popover open={calOpen} onOpenChange={setCalOpen}>
           <PopoverTrigger asChild>
             <Button variant={"outline"}>
               <CalendarIcon className="mr-2 h-4 w-4" />
@@ -94,6 +96,7 @@ function ReminderDialog({ trigger, onSave, _reminder }: props) {
               mode="single"
               selected={date}
               onSelect={(date) => {
+                setCalOpen(false);
                 setDate(date);
               }}
               initialFocus

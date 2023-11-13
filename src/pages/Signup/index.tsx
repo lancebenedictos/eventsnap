@@ -1,84 +1,151 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Formik } from "formik";
+import * as Yup from "yup";
+import ErrorMessage from "@/common/ErrorMessage";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { signUp } from "@/api/auth";
+
+interface Values {
+  first_name: string;
+  last_name: string;
+  email: string;
+  password: string;
+  cPassword: string;
+}
+
+const SignupSchema = Yup.object().shape({
+  first_name: Yup.string()
+    .min(2, "Too Short!")
+    .max(50, "Too Long!")
+    .required("Required"),
+  last_name: Yup.string()
+    .min(2, "Too Short!")
+    .max(50, "Too Long!")
+    .required("Required"),
+  email: Yup.string().email("Invalid email").required("Required"),
+  password: Yup.string()
+    .required("Required")
+    .min(8, "Password must be 8 characters")
+    .max(16, "Password must be 16 characters max"),
+  cPassword: Yup.string()
+    .required("Required")
+    .oneOf([Yup.ref("password")], "Passwords must match"),
+});
 
 function Signup() {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [cpassword, setCPassword] = useState("");
+  const queryClient = useQueryClient();
+  const navigate = useNavigate();
 
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-  };
+  const mutation = useMutation({
+    mutationFn: signUp,
+    onSuccess: (_data) => {
+      // Invalidate and refetch
+      // queryClient.invalidateQueries({ queryKey: ["organizer"] });
 
-  const changeEvent = (setFunction: (value: string) => void) => {
-    return (e: React.ChangeEvent<HTMLInputElement>) => {
-      setFunction(e.target.value);
-    };
-  };
+      queryClient.setQueryData(["organizer"], _data);
+      navigate("/");
+    },
+  });
 
   return (
     <main className="bg-white full flex flex-col items-center">
       <h2 className="text-3xl pt-4 ">Sign up</h2>
       <p className="pt-2">Welcome to EventSnap</p>
+      <Formik
+        validationSchema={SignupSchema}
+        initialValues={{
+          first_name: "",
+          last_name: "",
+          email: "",
+          password: "",
+          cPassword: "",
+        }}
+        onSubmit={(values: Values) => {
+          mutation.mutate({ ...values });
+        }}
+      >
+        {({ values, errors, touched, handleChange, handleSubmit }) => (
+          <form
+            action=""
+            className="flex flex-col w-full py-4"
+            onSubmit={handleSubmit}
+          >
+            <Label htmlFor="first_name">First name</Label>
 
-      <form action="" className="flex flex-col w-full py-4" onSubmit={onSubmit}>
-        <Label htmlFor="first_name">First name</Label>
+            <Input
+              placeholder="First name"
+              value={values.first_name}
+              id="first_name"
+              type="text"
+              onChange={handleChange}
+            />
+            {errors.first_name && touched.first_name ? (
+              <ErrorMessage msg={errors.first_name} />
+            ) : null}
 
-        <Input
-          placeholder="First name"
-          value={firstName}
-          id="first_name"
-          type="text"
-          onChange={changeEvent(setFirstName)}
-        />
+            <Label htmlFor="last_name">Last name</Label>
+            <Input
+              placeholder="Last name"
+              value={values.last_name}
+              id="last_name"
+              type="text"
+              onChange={handleChange}
+            />
+            {errors.last_name && touched.last_name ? (
+              <ErrorMessage msg={errors.last_name} />
+            ) : null}
+            <Label htmlFor="email">Email</Label>
+            <Input
+              id="email"
+              type="email"
+              placeholder="Email address"
+              value={values.email}
+              onChange={handleChange}
+            />
+            {errors.email && touched.email ? (
+              <ErrorMessage msg={errors.email} />
+            ) : null}
+            <Label htmlFor="password">Password</Label>
+            <Input
+              placeholder="Password"
+              id="password"
+              value={values.password}
+              onChange={handleChange}
+              type="password"
+            />
+            {errors.password && touched.password ? (
+              <ErrorMessage msg={errors.password} />
+            ) : null}
 
-        <Label htmlFor="last_name">Last name</Label>
-        <Input
-          placeholder="Last name"
-          value={lastName}
-          id="last_name"
-          type="text"
-          onChange={changeEvent(setLastName)}
-        />
+            <Label htmlFor="cPassword">Confirm password</Label>
+            <Input
+              placeholder="Confirm password"
+              id="cPassword"
+              value={values.cPassword}
+              onChange={handleChange}
+              type="password"
+            />
 
-        <Label htmlFor="email">Email</Label>
-        <Input
-          id="email"
-          type="email"
-          placeholder="Email address"
-          value={email}
-          onChange={changeEvent(setEmail)}
-        />
+            {errors.cPassword && touched.cPassword ? (
+              <ErrorMessage msg={errors.cPassword} />
+            ) : null}
 
-        <Label htmlFor="password">Password</Label>
-        <Input
-          placeholder="Password"
-          id="password"
-          value={password}
-          onChange={changeEvent(setPassword)}
-          type="password"
-        />
+            <p className="mt-2">
+              Already have an account? <Link to="/login">Login.</Link>
+            </p>
 
-        <Label htmlFor="cpassword">Confirm password</Label>
-        <Input
-          placeholder="Confirm password"
-          id="cpassword"
-          value={cpassword}
-          onChange={changeEvent(setCPassword)}
-          type="password"
-        />
-        <p className="mt-2">
-          Already have an account? <Link to="/login">Login.</Link>
-        </p>
-
-        <button className="bg-cta text-white py-2 w-44 self-center mt-4 rounded-sm">
-          Submit
-        </button>
-      </form>
+            <button
+              disabled={mutation.isPending}
+              type="submit"
+              className="bg-cta text-white py-2 w-44 self-center mt-4 rounded-sm disabled:bg-ctaLight"
+            >
+              Submit
+            </button>
+          </form>
+        )}
+      </Formik>
     </main>
   );
 }

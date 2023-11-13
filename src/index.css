@@ -118,13 +118,7 @@ main {
 }
 
 label {
-  @apply pb-2;
-}
-
-input[type="text"],
-input[type="password"],
-input[type="email"] {
-  @apply mb-6;
+  @apply pb-2 mt-4;
 }
 
 .menu {

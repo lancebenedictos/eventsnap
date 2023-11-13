@@ -7,7 +7,7 @@ function Reminders() {
 
   return (
     <div className="bg-white p-2 rounded-md">
-      <h2 className="font-bold text-xl">
+      <h2 className="font-bold text-2xl">
         Reminders
         <ReminderDialog
           trigger={<button>+</button>}
@@ -16,6 +16,7 @@ function Reminders() {
           }}
         />
       </h2>
+      <hr />
       <div className="flex flex-col gap-2">
         {reminders.map((reminder) => {
           return (
@@ -26,7 +27,7 @@ function Reminders() {
               <ReminderDialog
                 trigger={
                   <span>
-                    <p className=" font-bold">{reminder.task}</p>
+                    <p className=" font-bold ">{reminder.task}</p>
                     <p>
                       {reminder.date.toDateString()} -
                       {convertTo12HourFormat(reminder.time)}
