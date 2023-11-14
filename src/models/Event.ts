@@ -1,9 +1,12 @@
+import Attendee from "./Attendee";
+
 type Organizer = {
   first_name: string;
   last_name: string;
   _id: string;
   email: string;
 };
+
 export default class Event {
   _id: string;
   title?: string;
@@ -12,6 +15,7 @@ export default class Event {
   description?: string;
   location?: string;
   organizer?: Organizer;
+  attendees?: Attendee[];
 
   constructor(
     _id: string,
@@ -20,7 +24,8 @@ export default class Event {
     time?: string,
     description?: string,
     location?: string,
-    organizer?: Organizer
+    organizer?: Organizer,
+    attendees?: Attendee[]
   ) {
     this._id = _id;
     this.title = title;
@@ -29,5 +34,6 @@ export default class Event {
     this.description = description;
     this.location = location;
     this.organizer = organizer;
+    this.attendees = attendees;
   }
 }

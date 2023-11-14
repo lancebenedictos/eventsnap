@@ -26,7 +26,7 @@ function EventForm() {
     mutationFn: updateEvent,
     onSuccess: (_data) => {
       console.log(_data);
-      queryClient.setQueryData(["events", id], _data);
+      queryClient.setQueryData([id], _data);
       navigate(`/event/${id}`);
     },
   });

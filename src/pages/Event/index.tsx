@@ -52,7 +52,7 @@ function Event() {
 
       <Reminders />
 
-      <Attendees />
+      <Attendees attendees={data?.attendees} />
       <Photos />
     </main>
   );
