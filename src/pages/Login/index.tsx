@@ -72,7 +72,7 @@ function Login() {
             )}
 
             <p className="mt-2">
-              Already have an account? <Link to="/login">Login.</Link>
+              Don't have an account? <Link to="/signup">Signup.</Link>
             </p>
 
             <button
