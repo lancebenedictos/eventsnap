@@ -27,7 +27,7 @@ function EventForm() {
     onSuccess: (_data) => {
       console.log(_data);
       queryClient.setQueryData([id], _data);
-      navigate(`/event/${id}`);
+      navigate(`/events/${id}`);
     },
   });
 

@@ -15,7 +15,7 @@ function Home() {
     mutationFn: createEvent,
     onSuccess: (_data) => {
       queryClient.setQueryData(["events", _data._id], _data);
-      navigate(`event/${_data._id}`);
+      navigate(`events/${_data._id}`);
     },
   });
 
