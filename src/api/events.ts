@@ -1,6 +1,9 @@
 import Event from "@/models/Event";
 import axios from "axios";
-const base = "http://localhost:4000/api";
+const base =
+  process.env.NODE_ENV === "production"
+    ? "https://event-snap-18da04b7e300.herokuapp.com/api"
+    : "http://localhost:4000/api";
 
 export const getEvents = async (): Promise<Event[]> => {
   const res = await axios.get(`${base}/events`, {
