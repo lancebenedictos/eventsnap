@@ -24,7 +24,7 @@ const initialValues = {
   subTitle: "Nice to meet you!",
   content: BlockManager.getBlockByType(BasicType.PAGE)!.create({}),
 };
-import { merge } from "lodash";
+
 import { IBlock } from "easy-email-core";
 
 export type ICustomHeader = IBlockData<
@@ -54,9 +54,11 @@ const MyFirstBlock: IBlock = {
       },
       children: [],
     };
+    //  @ts-ignore
     return merge(defaultData, payload);
   },
   validParentType: [BasicType.COLUMN],
+  //    @ts-ignore
   render({ data }: ICustomHeader) {
     const instance = <Button href={data.data.value.buttonText}>Test</Button>;
     return instance;
@@ -74,6 +76,7 @@ BlockMarketManager.addCategories([
       {
         type: "RSVP",
         title: "RSVP",
+        //  @ts-ignore
         name: "RSVP",
         description: "RSVP inv",
         component: () => (
@@ -203,6 +206,7 @@ export default function Email() {
         // fontList={fontList}
         // onSubmit={onSubmit}
       >
+        {/* @ts-ignore */}
         {({ values }, { submit }) => {
           return (
             <>
