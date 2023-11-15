@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { EmailEditor, EmailEditorProvider } from "easy-email-editor";
 import "easy-email-editor/lib/style.css";
 import {
@@ -54,11 +55,11 @@ const MyFirstBlock: IBlock = {
       },
       children: [],
     };
-    //  @ts-ignore
+
     return merge(defaultData, payload);
   },
   validParentType: [BasicType.COLUMN],
-  //    @ts-ignore
+
   render({ data }: ICustomHeader) {
     const instance = <Button href={data.data.value.buttonText}>Test</Button>;
     return instance;
@@ -76,7 +77,7 @@ BlockMarketManager.addCategories([
       {
         type: "RSVP",
         title: "RSVP",
-        //  @ts-ignore
+
         name: "RSVP",
         description: "RSVP inv",
         component: () => (
@@ -206,7 +207,6 @@ export default function Email() {
         // fontList={fontList}
         // onSubmit={onSubmit}
       >
-        {/* @ts-ignore */}
         {({ values }, { submit }) => {
           return (
             <>
