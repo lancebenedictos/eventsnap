@@ -1,59 +1,91 @@
-import MenuBar from "./MenuBar";
-import { BiCopy } from "react-icons/bi";
-import Reminders from "./Reminders";
-import { useParams } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
 import { getEvent } from "@/api/events";
-import Attendees from "./Attendees";
-import Photos from "./Photos";
+import { uploadImages, uploadThumbnail } from "@/api/users";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+
+import { useParams } from "react-router-dom";
+import Gallery from "./Gallery";
 
 function Event() {
   const { id } = useParams();
+  const queryClient = useQueryClient();
   const { data } = useQuery({
     queryKey: [id],
     queryFn: () => getEvent(id),
   });
 
+  const mutation = useMutation({
+    mutationFn: (formData: FormData) => uploadThumbnail(formData, id!),
+    onSuccess: (_data) => {
+      console.log(_data);
+      queryClient.setQueryData([id], _data);
+    },
+  });
+
+  const handleSelect = async (e: React.FormEvent<HTMLInputElement>) => {
+    const files = (e.target as HTMLInputElement).files;
+
+    if (files) {
+      const formData = new FormData();
+
+      for (const file of files) {
+        formData.append("files", file);
+      }
+
+      // const response = await uploadThumbnail(formData, id!);
+      await uploadImages(formData, id!);
+    }
+  };
+
+  const handleThumbnail = async (e: React.FormEvent<HTMLInputElement>) => {
+    const files = (e.target as HTMLInputElement).files;
+    if (files) {
+      const formData = new FormData();
+
+      for (const file of files) {
+        formData.append("files", file);
+      }
+
+      // const response = await uploadThumbnail(formData, id!);
+      mutation.mutate(formData);
+    }
+  };
   return (
-    <main className="flex flex-col gap-4">
-      <MenuBar id={id} />
-      <span className=" w-full bg-white p-2 rounded-sm">
-        <h2 className=" font-bold text-2xl">Event invite link</h2>
-        <p>Use this link for participant registration</p>
-        <hr />
-        <span className="flex bg-background p-1 rounded-sm mt-4">
-          <p className=" line-clamp-1">{`${location.origin}/invite/${id}`}?</p>
-          <button
-            onClick={() => {
-              navigator.clipboard.writeText(`${location.origin}/invite/${id}`);
-            }}
-            className="ml-auto bg-background px-2 rounded-md"
+    <main className="bg-white min-h-screen">
+      <h1>{data?.title}</h1>
+      <div className="flex flex-col gap-3">
+        <div className="flex gap-2 items-center">
+          <h2 className=" font-bold text-2xl">Photos </h2>
+          <Label
+            htmlFor="photos"
+            className="bg-cta p-2 font-bold rounded-sm text-white m-0"
           >
-            <BiCopy />
-          </button>
-        </span>
-      </span>
+            Upload photos
+          </Label>
+        </div>
 
-      <div className="flex flex-col w-full bg-white p-2 rounded-sm">
-        <h2 className=" font-bold text-2xl">Event details</h2>
-        <hr className="mb-4" />
-        <h2 className="font-bold">{data?.title}</h2>
-        <p>{data?.description}</p>
+        <Input
+          type="file"
+          id="photos"
+          multiple
+          onChange={handleSelect}
+          className=" hidden"
+        />
         <p>
-          <span className=" font-bold">Date:</span> {data?.date}
+          Don't see yourself? <br />
+          <Label htmlFor="thumbnail" className="font-bold rounded-sm m-0">
+            Upload a photo for your thumbnail +
+            <Input
+              type="file"
+              id="thumbnail"
+              onChange={handleThumbnail}
+              className=" hidden"
+            />
+          </Label>
         </p>
-        <p>
-          <span className="font-bold">Time:</span> {data?.time}
-        </p>
-        <p>
-          <span className="font-bold">Location:</span> {data?.location}
-        </p>
+        {data?.users ? <Gallery users={data.users} /> : null}
       </div>
-
-      <Reminders />
-
-      <Attendees attendees={data?.attendees} />
-      <Photos />
     </main>
   );
 }

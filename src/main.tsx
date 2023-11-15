@@ -7,12 +7,14 @@ import Error from "./ErrorPage/index.tsx";
 import Navbar from "./common/Navbar.tsx";
 import Signup from "./pages/Signup/index.tsx";
 import Login from "./pages/Login/index.tsx";
-import Event from "./pages/Event/index.tsx";
+import EditEvent from "./pages/EditEvent/index.tsx";
 import EventForm from "./pages/EventForm/index.tsx";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import Email from "./pages/Email/Email.tsx";
 import Invite from "./pages/Invite/Invite.tsx";
+import Event from "./pages/Event/index.tsx";
+import Images from "./pages/Images/index.tsx";
 
 const router = createBrowserRouter([
   {
@@ -23,9 +25,11 @@ const router = createBrowserRouter([
       { path: "/", element: <App /> },
       { path: "/signup", element: <Signup /> },
       { path: "/login", element: <Login /> },
+      { path: "/:eventId/images/:userId", element: <Images /> },
+      { path: "/:id", element: <Event /> },
       { path: "/event/edit/:id", element: <EventForm /> },
+      { path: "/event/:id", element: <EditEvent /> },
       { path: "/event/:id/email", element: <Email /> },
-      { path: "/event/:id", element: <Event /> },
       { path: "/invite/:id", element: <Invite /> },
     ],
   },

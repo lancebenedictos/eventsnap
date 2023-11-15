@@ -1,5 +1,9 @@
 import axios from "axios";
-const base = "http://localhost:4000/api";
+const base =
+  process.env.NODE_ENV === "production"
+    ? "https://event-snap-18da04b7e300.herokuapp.com/api"
+    : "http://localhost:4000/api";
+
 type Organizer = {
   first_name: string;
   last_name: string;

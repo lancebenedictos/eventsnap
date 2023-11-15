@@ -7,6 +7,16 @@ type Organizer = {
   email: string;
 };
 
+export type User = {
+  _id: string;
+  thumbnail: Thumbnail;
+};
+
+export type Thumbnail = {
+  _id: string;
+  faceId: string;
+  downloadUrl: string;
+};
 export default class Event {
   _id: string;
   title?: string;
@@ -16,6 +26,7 @@ export default class Event {
   location?: string;
   organizer?: Organizer;
   attendees?: Attendee[];
+  users?: User[];
 
   constructor(
     _id: string,
@@ -25,7 +36,8 @@ export default class Event {
     description?: string,
     location?: string,
     organizer?: Organizer,
-    attendees?: Attendee[]
+    attendees?: Attendee[],
+    users?: User[]
   ) {
     this._id = _id;
     this.title = title;
@@ -35,5 +47,6 @@ export default class Event {
     this.location = location;
     this.organizer = organizer;
     this.attendees = attendees;
+    this.users = users;
   }
 }
