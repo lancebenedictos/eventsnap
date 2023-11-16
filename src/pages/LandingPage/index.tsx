@@ -48,6 +48,14 @@ function LandingPage() {
           </Link>
         </div>
       </header>
+
+      <main>
+        <section id="about" className=" h-screen">
+          adsfasdf
+        </section>
+
+        <section id="contact" className=" h-screen"></section>
+      </main>
     </>
   );
 }

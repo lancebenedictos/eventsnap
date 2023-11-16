@@ -4,6 +4,7 @@ import { RxHamburgerMenu } from "react-icons/rx";
 import { useEffect, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { checkUser, logout } from "@/api/auth";
+import { HashLink } from "react-router-hash-link";
 
 function Navbar() {
   const [navbarOpen, setNavbarOpen] = useState(false);
@@ -39,8 +40,12 @@ function Navbar() {
 
           <span className="gap-6 left-1/2 absolute -translate-x-1/2 hidden md:flex">
             <Link to="/">HOME</Link>
-            <Link to="/about">ABOUT</Link>
-            <Link to="/contact">CONTACT</Link>
+            <HashLink smooth to="/#about">
+              ABOUT
+            </HashLink>
+            <HashLink smooth to="/#contact">
+              CONTACT
+            </HashLink>
           </span>
 
           {data ? (
