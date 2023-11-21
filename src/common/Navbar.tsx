@@ -35,7 +35,7 @@ function Navbar() {
   return (
     <>
       <nav className="bg-white py-2 shadow-md sticky top-0 w-full right-0 h-14 ">
-        <div className="w-[90%] mx-auto flex items-center">
+        <div className="w-[90%] mx-auto flex items-center max-w-screen-2xl">
           <Logo withText />
 
           <span className="gap-6 left-1/2 absolute -translate-x-1/2 hidden md:flex">

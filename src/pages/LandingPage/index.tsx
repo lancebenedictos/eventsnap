@@ -50,11 +50,18 @@ function LandingPage() {
       </header>
 
       <main>
-        <section id="about" className=" h-screen">
-          adsfasdf
-        </section>
+        <section id="about" className=" h-screen"></section>
 
-        <section id="contact" className=" h-screen"></section>
+        <section
+          id="contact"
+          className=" h-screen flex items-center justify-center flex-col"
+        >
+          <p>This is a personal project</p>
+          <p>Find more information at</p>
+          <a href="https://lancebenedictos.dev/" target="_blank">
+            lancebenedictos.dev
+          </a>
+        </section>
       </main>
     </>
   );

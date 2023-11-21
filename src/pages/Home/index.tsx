@@ -20,7 +20,7 @@ function Home() {
   });
 
   return (
-    <main>
+    <main className="bg-white min-h-screen">
       <h2 className="text-2xl">Your events</h2>
       <button
         className=" bg-cta text-white px-4 py-2  rounded-sm"
@@ -31,11 +31,15 @@ function Home() {
         Create event
       </button>
 
-      <div className="mt-4 flex flex-col gap-4">
-        {data?.map((el) => (
-          <EventCard event={el} key={el._id} />
-        ))}
-      </div>
+      {data?.length === 0 ? (
+        <h1>No events found</h1>
+      ) : (
+        <div className="mt-4 flex flex-col gap-4 lg:grid md:grid-cols-2 lg:grid-cols-3">
+          {data?.map((el) => (
+            <EventCard event={el} key={el._id} />
+          ))}
+        </div>
+      )}
     </main>
   );
 }

@@ -114,7 +114,7 @@ header {
 } */
 
 main {
-  @apply md:w-[90%] mx-auto md:p-4;
+  @apply md:w-[90%] mx-auto md:p-4  max-w-screen-2xl;
 }
 
 label {

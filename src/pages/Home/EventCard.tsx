@@ -7,8 +7,8 @@ type props = {
 function EventCard({ event }: props) {
   return (
     <Link
-      to={`/event/${event._id}`}
-      className="bg-white p-2 rounded-md shadow-md hover:bg-ctaLight"
+      to={`/events/${event._id}`}
+      className="bg-white p-2 rounded-md shadow-md hover:bg-cta hover:text-white"
     >
       <h4 className=" font-bold text-xl">{event.title || "New event"}</h4>
       {event.date ? <p>{event?.date}</p> : <p>No date</p>}
